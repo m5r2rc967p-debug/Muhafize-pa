@@ -8,6 +8,12 @@ targets:
     type: application
     platform: iOS
     sources:
+  - path: .
+    excludes:
+      - project.yml
+      - README.md
+      - README.txt
+      - plates.txt
       - Muhafizeci
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: az.muhafizeci.app
