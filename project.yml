@@ -1,0 +1,19 @@
+name: Muhafizeci
+options:
+  bundleIdPrefix: az.muhafizeci
+  deploymentTarget:
+    iOS: "16.0"
+targets:
+  Muhafizeci:
+    type: application
+    platform: iOS
+    sources:
+      - Muhafizeci
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: az.muhafizeci.app
+      PRODUCT_NAME: Muhafizeci
+      INFOPLIST_KEY_NSCameraUsageDescription: "Maşın nömrələrini oxumaq üçün kameradan istifadə olunur."
+      GENERATE_INFOPLIST_FILE: YES
+      SWIFT_VERSION: 5.0
+      TARGETED_DEVICE_FAMILY: "1,2"
+      CODE_SIGNING_ALLOWED: NO
