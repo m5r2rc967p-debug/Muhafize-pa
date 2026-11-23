@@ -1,7 +1,11 @@
+
 name: Build unsigned iOS IPA for eSign
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -11,6 +15,32 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate --spec project.yml
+
       - name: Build iOS app
         run: |
-          xcodebuild -version
+          xcodebuild \
+            -project Muhafizeci.xcodeproj \
+            -scheme Muhafizeci \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Package IPA
+        run: |
+          mkdir Payload
+          APP=$(find build/Build/Products/Release-iphoneos -maxdepth 1 -name "*.app" -print -quit)
+          test -n "$APP"
+          cp -R "$APP" Payload/
+          zip -r Muhafizeci.ipa Payload
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Muhafizeci-IPA
+          path: Muhafizeci.ipa
